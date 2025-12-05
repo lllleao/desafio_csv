@@ -91,7 +91,7 @@ npm install
 npx prisma generate
 npm run dev
 ```
-
+### O input para upload está em http://localhost:3000/
 ------------------------------------------------------------------------
 
 # 🚨 Observações de Performance
