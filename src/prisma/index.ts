@@ -10,6 +10,8 @@ const adapter = new PrismaMariaDb({
     connectionLimit: 5
 })
 
-const prisma = new PrismaClient({adapter})
+const prisma = new PrismaClient({adapter, transactionOptions: {
+    timeout: 60000
+}})
 
 export default prisma

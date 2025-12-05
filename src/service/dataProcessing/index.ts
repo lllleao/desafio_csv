@@ -5,18 +5,33 @@ import { AlunoDataRepository } from "@src/repository/alunoRepository"
 const alunoRepo = new AlunoDataRepository()
 
 export const emailExists = async (alunosData: AlunosData[]) => {
-    for (let aluno of alunosData) {
-        const alunoByEmail = await alunoRepo.findByEmail(aluno.email)
-        if (alunoByEmail) throw new Error('Email já existe no banco')
+    const emails = alunosData.map(a => a.email)
+
+    const existentes = await prisma.aluno.findMany({
+        where: {
+            email: { in: emails }
+        },
+        select: { email: true }
+    })
+
+    if (existentes.length > 0) {
+        throw new Error(`Algum email já existe`)
     }
 
 }
 
 export const cursoExists = async (alunosData: AlunosData[]) => {
+    const curso_id = alunosData.map(a => Number(a.curso_id))
 
-    for (let aluno of alunosData) {
-        const curso = await alunoRepo.findCursoById(aluno.curso_id)
-        if (!curso) throw new Error('Curso não existe')
+    const existentes = await prisma.curso.findMany({
+        where: {
+            id: { in: curso_id }
+        },
+        select: { id: true }
+    })
+
+    if (!Boolean(existentes)) {
+        throw new Error('Algum curso não existe')
     }
 
     return true
