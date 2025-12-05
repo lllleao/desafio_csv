@@ -5,14 +5,18 @@ const emailFilter = (alunosData: AlunosData[]): Promise<AlunosData[]> => {
         if (!Boolean(alunosData) || alunosData.length === 0) {
             return reject('Array vazio')
         }
+
+        const seen = new Set<string>();
+
         const alunosWithoutDuplicateEmail: AlunosData[] = []
-        alunosData.forEach(item => {
-            const duplicateEmail = alunosData.filter(aluno => aluno.email === item.email).length
-            
-            if (duplicateEmail > 1) return
-            
-            alunosWithoutDuplicateEmail.push(item)
-        })
+
+        for (let aluno of alunosData) {
+            if (seen.has(aluno.email)) continue
+            seen.add(aluno.email)
+            alunosWithoutDuplicateEmail.push(aluno)
+        }
+
+        
     
         resolve(alunosWithoutDuplicateEmail)
     })

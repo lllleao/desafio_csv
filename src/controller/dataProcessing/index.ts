@@ -5,7 +5,7 @@ import parseCSVToObject from '@src/controller/utils/parseCSV'
 import emailFilter from '@src/controller/utils/emailFilter'
 import cpfValidator from '@src/controller/utils/cpfValidate'
 import dateValidate from '@src/controller/utils/dateValidate'
-import { emailExists } from '@src/service/dataProcessing'
+import { cursoExists, emailExists } from '@src/service/dataProcessing'
 import prisma from '@src/prisma'
 
 const router = express.Router()
@@ -36,6 +36,10 @@ router.post('/', upload.single("file"), async (req, res) => {
         await dateValidate(alunosWithoutDuplicateEmail)
 
         await emailExists(alunosWithoutDuplicateEmail)
+
+        await cursoExists(alunosWithoutDuplicateEmail)
+
+        
 
         res.status(200).json({ok: true})
     } catch (err) {

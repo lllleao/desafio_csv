@@ -11,3 +11,13 @@ export const emailExists = async (alunosData: AlunosData[]) => {
     }
 
 }
+
+export const cursoExists = async (alunosData: AlunosData[]) => {
+
+    for (let aluno of alunosData) {
+        const curso = await alunoRepo.findCursoById(aluno.curso_id)
+        if (!curso) throw new Error('Curso não existe')
+    }
+
+    return true
+}

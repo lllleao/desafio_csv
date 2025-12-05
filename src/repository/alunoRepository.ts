@@ -1,5 +1,6 @@
 import prisma from '@src/prisma'
 import type { AlunoRepository } from './alunoInterface'
+import type { Curso } from '../../prisma/generated/client'
 
 export class AlunoDataRepository implements AlunoRepository {
     async findByEmail(email: string) {
@@ -9,5 +10,14 @@ export class AlunoDataRepository implements AlunoRepository {
             }
         })
         return aluno
+    }
+    async findCursoById(id: number): Promise<Curso | null> {
+        const curso = await prisma.curso.findUnique({
+            where: {
+                id
+            }
+        })
+
+        return curso
     }
 }

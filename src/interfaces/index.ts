@@ -5,3 +5,8 @@ export interface AlunosData {
     data_nascimento: string,
     curso_id: number
 }
+
+export interface Curso {
+    id: number,
+    title: string
+}
